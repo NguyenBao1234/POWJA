@@ -57,6 +57,7 @@ public class Window
         glfwSetCursorPosCallback(glfwWindowAdress, MouseListener::cursor_position_callback);
         glfwSetMouseButtonCallback(glfwWindowAdress,MouseListener::mouse_button_callback);
         glfwSetScrollCallback(glfwWindowAdress, MouseListener::scroll_callback);
+        glfwSetKeyCallback(glfwWindowAdress,KeyListener::key_callback);
 
         glfwMakeContextCurrent(glfwWindowAdress); //make the OpenGL context current
         glfwSwapInterval(1); //enable v-sync
