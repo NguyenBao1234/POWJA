@@ -1,4 +1,5 @@
 package POWJA;
+import Utilities.Time;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -14,13 +15,29 @@ public class Window
     private long glfwWindowAdress;
     private static Window window = null;
 
+    public float r = 1, g = 1, b= 1, a;
+    private static Scene currentScene;
     private Window()
     {
         this.Width = 1280;
         this.Height = 720;
         this.Title = "POWJA engine";
     }
-
+    public static void UpdateScene(int SceneIndex)
+    {
+        switch (SceneIndex)
+        {
+            case 0:
+                currentScene = new LevelEditorScene();
+                break;
+            case 1:
+                currentScene = new LevelScene();
+                break;
+            default:
+                assert false : "Unknown Scene:'" + SceneIndex +"'";
+                break;
+        }
+    }
     public static Window getWindow()
     {
         if(Window.window == null) Window.window = new Window();
@@ -62,6 +79,7 @@ public class Window
         glfwMakeContextCurrent(glfwWindowAdress); //make the OpenGL context current
         glfwSwapInterval(1); //enable v-sync
         glfwShowWindow(glfwWindowAdress);
+        UpdateScene(0);
 
         System.out.println("Initialize Success");
 
@@ -69,6 +87,9 @@ public class Window
 
     public void loop()
     {
+        float beginTime = Time.getTime();
+        float endTime;
+        float dt =-1 ;
          /*This line is critical for LWJGL's interoperation with GLFW's
            OpenGL context, or any context that is managed externally.
            LWJGL detects the context that is current in the current thread,
@@ -80,10 +101,14 @@ public class Window
             // Poll events
             glfwPollEvents();
 
-            glClearColor(0, 0.7f, 0.8f, 1.0f);
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             glfwSwapBuffers(glfwWindowAdress);
+            if(dt > 0) currentScene.update(dt);
+            endTime = Time.getTime();
+            dt = endTime-beginTime;
+            beginTime = endTime;
 
         }
     }
