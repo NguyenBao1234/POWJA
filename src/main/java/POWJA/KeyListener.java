@@ -20,7 +20,7 @@ public class KeyListener
     public static void key_callback(long window, int key, int scancode, int action, int mods) {
         if (action == GLFW_PRESS) getInstKeyListener().bKeyPressedArr[key] = true;
         else if (action == GLFW_RELEASE) getInstKeyListener().bKeyPressedArr[key] = false;
-        System.out.println("Key: "+key + ", scancode:"+ scancode +", action: "+ action + ", modifiers: " + mods);
+        //System.out.println("Key: "+key + ", scancode:"+ scancode +", action: "+ action + ", modifiers: " + mods);
         //action : 0-releas, 1-press, 2- hold; mods: 0 = no; 1 = shift; 2 = ctrl; 4 = alt; 8 = window
     }
 

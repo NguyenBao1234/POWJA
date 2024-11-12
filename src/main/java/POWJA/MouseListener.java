@@ -44,7 +44,7 @@ public class MouseListener
                 getInstMouseListener().bMouseBtnPressedArr[button] = false;
                 getInstMouseListener().bDragging = false;
             }
-            System.out.println("MouseClick: "+ button + "; action: " + action + "; mods:"+ mods );
+            //System.out.println("MouseClick: "+ button + "; action: " + action + "; mods:"+ mods );
             //mods: 0 = no; 1 = shift; 2 = ctrl; 4 = alt; 8 = window
         }
     }
