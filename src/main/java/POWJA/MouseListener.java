@@ -31,7 +31,7 @@ public class MouseListener
         getInstMouseListener().lastX = getInstMouseListener().xPos;
         getInstMouseListener().xPos = xpos;
         getInstMouseListener().yPos = ypos;
-        System.out.println("MouseX: "+ xpos + "; Mouse: " + ypos);
+        //System.out.println("MouseX: "+ xpos + "; Mouse: " + ypos);
     }
 
     public static void mouse_button_callback(long window, int button, int action, int mods)
@@ -65,7 +65,7 @@ public class MouseListener
         getInstMouseListener().lastX = getInstMouseListener().xPos;
         getInstMouseListener().lastY = getInstMouseListener().yPos;
 
-        System.out.println("EndFrame");
+        //System.out.println("EndFrame");
     }
 
 //getter:

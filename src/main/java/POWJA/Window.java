@@ -15,7 +15,7 @@ public class Window
     private long glfwWindowAdress;
     private static Window window = null;
 
-    public float r = 1, g = 1, b= 1, a;
+    public float r = 1, g = 0.7f, b= 0.5f, a;
     private static Scene currentScene;
     private Window()
     {
@@ -29,9 +29,11 @@ public class Window
         {
             case 0:
                 currentScene = new LevelEditorScene();
+                currentScene.init();
                 break;
             case 1:
                 currentScene = new LevelScene();
+                currentScene.init();
                 break;
             default:
                 assert false : "Unknown Scene:'" + SceneIndex +"'";
@@ -67,6 +69,7 @@ public class Window
         glfwWindowHint(GLFW_RESIZABLE,GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED,GLFW_TRUE);
 
+
         //create actual GLFW Window
         glfwWindowAdress = glfwCreateWindow(this.Width,this.Height,this.Title,NULL,NULL);
         if(glfwWindowAdress == NULL) throw new IllegalStateException("Failed to create glfwWindow");
@@ -79,9 +82,16 @@ public class Window
         glfwMakeContextCurrent(glfwWindowAdress); //make the OpenGL context current
         glfwSwapInterval(1); //enable v-sync
         glfwShowWindow(glfwWindowAdress);
+           /*This line is critical for LWJGL's interoperation with GLFW's
+           OpenGL context, or any context that is managed externally.
+           LWJGL detects the context that is current in the current thread,
+           creates the GLCapabilities instance and makes the OpenGL
+           bindings available for use.*/
+        GL.createCapabilities();
+
         UpdateScene(0);
 
-        System.out.println("Initialize Success");
+        System.out.println("Success Initialized Window");
 
     }
 
@@ -90,21 +100,18 @@ public class Window
         float beginTime = Time.getTime();
         float endTime;
         float dt =-1 ;
-         /*This line is critical for LWJGL's interoperation with GLFW's
-           OpenGL context, or any context that is managed externally.
-           LWJGL detects the context that is current in the current thread,
-           creates the GLCapabilities instance and makes the OpenGL
-           bindings available for use.*/
-        GL.createCapabilities();
+
+
         while (!glfwWindowShouldClose(glfwWindowAdress))
         {
             // Poll events
             glfwPollEvents();
 
             glClearColor(r, g, b, a);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT);
 
             glfwSwapBuffers(glfwWindowAdress);
+
             if(dt > 0) currentScene.update(dt);
             endTime = Time.getTime();
             dt = endTime-beginTime;
